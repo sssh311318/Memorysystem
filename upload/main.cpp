@@ -14,18 +14,25 @@ int main()
 
     FILE * fp_r = NULL;
     fp_r = fopen("testcases/t8.txt","r"); 
-
     fscanf(fp_r,"%d",&setnum);
     fscanf(fp_r,"%d",&waynum_perset);
     fscanf(fp_r,"%d",&repl_policy);
     fscanf(fp_r,"%d",&shctentry_num);
-    fscanf(fp_r,"%d",&operation_num);    
-    
+    fscanf(fp_r,"%d",&operation_num); 
+
+    //for OJ
+    /* 
+    scanf("%u",&numset);
+    scanf("%u",&numway);
+    scanf("%u",&policy);
+    scanf("%u",&shctentry);
+    scanf("%u",&numinst);
+    */
+
     cout<<setnum<<"\n"<<waynum_perset<<"\n"<<repl_policy<<"\n"<<shctentry_num<<"\n"<<operation_num<<"\n";
     CACHE_REPLACEMENT_STATE * cacheReplState = new CACHE_REPLACEMENT_STATE( setnum, waynum_perset, repl_policy );
     cacheReplState->SHCT_size( shctentry_num );
     cacheReplState->InitSHCTState();
-    
     
     //cout << "Test creating an CACHE_REPLACEMENT_STATE object" << endl;
 
@@ -36,6 +43,7 @@ int main()
         fscanf(fp_r,"%d",&serialnum);
         fscanf(fp_r,"%d",&pc);
         fscanf(fp_r,"%d",&set); 
+        //for OJ
         /*
         scanf("%u",&serialnum);
         scanf("%u",&pc);

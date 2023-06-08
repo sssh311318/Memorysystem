@@ -301,26 +301,50 @@ void CACHE_REPLACEMENT_STATE::SHiP_Update( UINT32 setIndex, INT32 updateWayID, b
 {
     UINT32 hash;
     hash = pc % shctentry_num;
+    /* Cache Hit:
+    cache_line.outcome = true;
+    RRPV = 0; // same as RRIP*/
     if(hit){
-        repl[ setIndex ][ updateWayID ].RRPV = 0;
         repl[ setIndex ][ updateWayID ].outcome = 1;
+        repl[ setIndex ][ updateWayID ].RRPV = 0;
+
+        /*Increment SHCT[signature_line];*/
         pre_signature_line = repl[ setIndex ][ updateWayID ].signature_line;
         if(shct[repl[ setIndex ][ updateWayID ].signature_line].shct_value != 3){
             shct[repl[ setIndex ][ updateWayID ].signature_line].shct_value ++;
         }
+        //set sig = true
         change_pre_sig = true;
     }else{
+        /*Cache Miss:
+    find an old line to evict
+    if (evicted_cache_line.outcome == false)
+    Decrement SHCT[signature_line];
+    insert the new line
+    */
         if(repl[ setIndex ][ updateWayID ].outcome == 0){
             if(shct[repl[ setIndex ][ updateWayID ].signature_line].shct_value!=0){
                 shct[repl[ setIndex ][ updateWayID ].signature_line].shct_value--;
             }
             pre_signature_line = repl[ setIndex ][ updateWayID ].signature_line;
+            //set sig = true
             change_pre_sig = true;
         }else{
+            //set sig = false
             change_pre_sig = false;
         }
+        /*
+        cache_line.outcome = false;
+        cache_line.signature_line = hash(PC);
+        */
         repl[ setIndex ][ updateWayID ].outcome = 0;
         repl[ setIndex ][ updateWayID ].signature_line = hash;
+        /*
+        if (SHCT[hash(PC)] == 0)
+        RRPV = 3; // not worth being cached
+        else
+        RRPV = 2; // same as RRIP
+        */
         if(shct[hash].shct_value == 0){
             repl[ setIndex ][ updateWayID ].RRPV = 3;
         }else{
