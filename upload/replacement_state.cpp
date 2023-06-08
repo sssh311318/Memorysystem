@@ -221,7 +221,7 @@ INT32 CACHE_REPLACEMENT_STATE::Get_Random_Victim( UINT32 setIndex )
 //SHiP                                                                        //
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
-INT32 CACHE_REPLACEMENT_STATE::Get_SHiP_Victim( UINT32 setIndex )
+INT32 CACHE_REPLACEMENT_STATE::SHiP_GetVictimInSet( UINT32 setIndex )
 {
     // Get pointer to replacement state of current set
     LINE_REPLACEMENT_STATE *replSet = repl[ setIndex ];
@@ -420,7 +420,7 @@ void  CACHE_REPLACEMENT_STATE::PrintAll( UINT32 setIndex , UINT32 hit_way, UINT3
 
         if((i == pre_signature_line) && change_pre_sig)cout<<"(";
              
-        cout<<shct[i].SHCT_VALUE;
+        cout<<shct[i].shct_value;
 
         if((i == pre_signature_line) && change_pre_sig)cout<<")";
         

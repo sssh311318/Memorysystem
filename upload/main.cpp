@@ -48,14 +48,14 @@ int main()
         if(hit){
             fscanf(fp_r, "%d",&hit_way);
             cout<<"Hit "<<hit_way<<"\n";
-            cacheReplState->UpdateSHiP( set, hit_way, hit, pc );
-            cacheReplState->PrintResult( set, hit_way, replace_way, hit );
+            cacheReplState->SHiP_Update( set, hit_way, hit, pc );
+            cacheReplState->PrintAll( set, hit_way, replace_way, hit );
         //print replace info
         }else{
-            replace_way = cacheReplState->Get_SHiP_Victim( set );
+            replace_way = cacheReplState->SHiP_GetVictimInSet( set );
             cout<<"Replace "<<replace_way<<"\n";
-            cacheReplState->UpdateSHiP( set, replace_way, hit, pc );
-            cacheReplState->PrintResult( set, hit_way, replace_way, hit );
+            cacheReplState->SHiP_Update( set, replace_way, hit, pc );
+            cacheReplState->PrintAll( set, hit_way, replace_way, hit );
         }
 
         if(index!=operation_num-1){
