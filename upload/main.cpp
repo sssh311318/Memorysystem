@@ -11,7 +11,10 @@ int main()
     UINT32 repl_policy;
     UINT32 shctentry_num;
     UINT32 operation_num;
+
+    FILE * fp_r = NULL;
     fp_r = fopen("testcases/t8.txt","r"); 
+
     fscanf(fp_r,"%d",&setnum);
     fscanf(fp_r,"%d",&waynum_perset);
     fscanf(fp_r,"%d",&repl_policy);
@@ -19,17 +22,16 @@ int main()
     fscanf(fp_r,"%d",&operation_num);    
     
     cout<<setnum<<"\n"<<waynum_perset<<"\n"<<repl_policy<<"\n"<<shctentry_num<<"\n"<<operation_num<<"\n";
-    
+    CACHE_REPLACEMENT_STATE * cacheReplState = new CACHE_REPLACEMENT_STATE( setnum, waynum_perset, repl_policy );
     cacheReplState->SHCT_size( shctentry_num );
     cacheReplState->InitSHCTState();
     
     
     //cout << "Test creating an CACHE_REPLACEMENT_STATE object" << endl;
-    CACHE_REPLACEMENT_STATE * cacheReplState = new CACHE_REPLACEMENT_STATE( setnum, waynum_perset, repl_policy );
 
     int serialnum, pc, set, hit, hit_way, replace_way;
     
-    for (unsigned index = 0; index < numinst; index ++){
+    for (unsigned index = 0; index < operation_num; index ++){
 
         fscanf(fp_r,"%d",&serialnum);
         fscanf(fp_r,"%d",&pc);
@@ -44,19 +46,19 @@ int main()
         fscanf(fp_r, "%d",&hit);
         //print hit's info
         if(hit){
-            fscanf(fp_r, "%d",&hitway);
-            cout<<"Hit "<<hitway<<"\n";
-            cacheReplState->UpdateSHiP( set, hitway, hit, pc );
-            cacheReplState->PrintResult( set, hitway, replaceway, hit );
+            fscanf(fp_r, "%d",&hit_way);
+            cout<<"Hit "<<hit_way<<"\n";
+            cacheReplState->UpdateSHiP( set, hit_way, hit, pc );
+            cacheReplState->PrintResult( set, hit_way, replace_way, hit );
         //print replace info
         }else{
-            replaceway = cacheReplState->Get_SHiP_Victim( set );
-            cout<<"Replace "<<replaceway<<"\n";
-            cacheReplState->UpdateSHiP( set, replaceway, hit, pc );
-            cacheReplState->PrintResult( set, hitway, replaceway, hit );
+            replace_way = cacheReplState->Get_SHiP_Victim( set );
+            cout<<"Replace "<<replace_way<<"\n";
+            cacheReplState->UpdateSHiP( set, replace_way, hit, pc );
+            cacheReplState->PrintResult( set, hit_way, replace_way, hit );
         }
 
-        if(index!=numinst-1){
+        if(index!=operation_num-1){
             cout<<"\n";
         }
 
